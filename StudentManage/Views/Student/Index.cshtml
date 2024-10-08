@@ -1,5 +1,10 @@
 ﻿@model IEnumerable<StudentManage.Models.S_Student>
 
+@{
+    ViewData["Title"] = "Quản lý sinh viên";
+}
+@TempData["SuccessMessage"]
+
 <h2>Student Management</h2>
 
 <table class="table">
@@ -7,12 +12,23 @@
         <tr>
             <th>Name</th>
             <th>Email</th>
-            <th>Date of Birth</th>
+            <th>Class</th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-        
+        @foreach (var student in Model)
+        {
+            <tr>
+                <td>@student.Name</td>
+                <td>@student.Phone</td>
+                <td>@student.Class</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@student.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@student.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 

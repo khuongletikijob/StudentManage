@@ -1,4 +1,10 @@
-﻿ <div >
+﻿@model StudentManage.Models.Auth.LoginModel
+
+@{
+    ViewData["Title"] = "Đăng nhập";
+}
+
+<div >
     <h2 class="text-center">Login</h2>
 
     <form method="post" asp-action="Login" class="login-form">
@@ -15,7 +21,7 @@
         </div>
     </form>
  </div>
-
+    
 @if (ViewBag.ErrorMessage != null)
 {
     <p class="error-message">@ViewBag.ErrorMessage</p>

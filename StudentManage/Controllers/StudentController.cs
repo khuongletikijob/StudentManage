@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using StudentManage.Data;
 using StudentManage.Models;
+using System.Security.Claims;
 
 namespace StudentManage.Controllers
 {
     [Route("Student")]
+    [Authorize]
     public class StudentController : Controller
     {
         private readonly StudentManageContext _context;
@@ -14,10 +17,17 @@ namespace StudentManage.Controllers
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
+        
         [HttpGet("Index")]
         public IActionResult Index()
         {
-            return View();
+            var students = _context.S_Students.ToList();
+            var user = HttpContext.User;
+
+            Console.WriteLine("user=========================");
+            Console.WriteLine(user.FindFirst(ClaimTypes.Name)?.Value);
+
+            return View(students);
         }
 
         [HttpGet]

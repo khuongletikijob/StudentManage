@@ -1,3 +1,4 @@
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using StudentManage.Data;
 using StudentManage.Services;
@@ -10,6 +11,15 @@ builder.Services.AddScoped<UserService>();
 
 builder.Services.AddDbContext<StudentManageContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, config =>
+    {
+        config.Cookie.Name = "UserLoginCookie";
+        config.LoginPath = "/Auth/Login";
+    });
+
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -26,6 +36,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
